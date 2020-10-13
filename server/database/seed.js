@@ -47,7 +47,9 @@ for (var i = 0; i < 5; i++) {
 // Inserting seed data
 const insertMockData = function() {
   Review.create(mockData)
-    .then(() => { db.close(); });
+    .then(() => {
+      console.log('inserted')
+      db.close(); });
 };
 
 insertMockData();

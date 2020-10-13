@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --forceExit --detectOpenHandles",
     "start": "nodemon server/start.js",
-    "build": "grunt webpack",
+    "build": "webpack",
     "db:setup": "node server/database/seed.js",
     "upload": "grunt s3"
   },
