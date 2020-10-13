@@ -12,6 +12,7 @@ app.use('/listing/:itemId', express.static(path.join(__dirname, '../client/dist'
 app.get('/api/item-reviews/:itemId/:sort', (req, res) => {
   reviews.getItem(req.params.itemId, req.params.sort)
     .then((reviews) => {
+      console.log('sorted 1')
       res.status(200).send(reviews);
     })
     .catch((err) => {
@@ -22,6 +23,7 @@ app.get('/api/item-reviews/:itemId/:sort', (req, res) => {
 app.get('/api/store-reviews/:itemId/:sort', (req, res) => {
   reviews.getStoreId(req.params.itemId)
     .then((storeId) => {
+      console.log('sorted 2')
       return reviews.getStore(storeId, req.params.sort);
     })
     .then((reviews) => {
@@ -48,6 +50,7 @@ app.get('/api/photo-reviews/:itemId', (req, res) => {
 app.patch('/api/helpful-review/:reviewId', (req, res) => {
   reviews.patchHelpful(req.params.reviewId)
     .then((results) => {
+      console.log('helped')
       res.status(200).send(results);
     })
     .catch((err) => {
