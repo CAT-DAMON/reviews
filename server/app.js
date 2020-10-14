@@ -58,4 +58,15 @@ app.patch('/api/helpful-review/:reviewId', (req, res) => {
     })
 })
 
+app.post('/api/create-review', (req, res) => {
+  res.send('created')
+})
+
+app.put('/api/helpful-review', (req, res) => {
+  res.send('updated')
+})
+app.delete('/api/item-reviews', (req, res) => {
+  res.send('deleted')
+})
+
 module.exports = app
