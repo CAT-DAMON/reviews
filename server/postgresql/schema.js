@@ -1,0 +1,16 @@
+CREATE TABLE
+reviews (
+  id serial PRIMARY KEY,
+  userId VARCHAR(110) NOT NULL,
+  userName VARCHAR(110) NOT NULL,
+  userThumb VARCHAR(200) NOT NULL,
+  createdAt TIMESTAMP WITH TIME ZONE NOT NULL,
+  rating INT NOT NULL,
+  body VARCHAR(600) NOT NULL,
+  itemId INT NOT NULL,
+  itemName VARCHAR(110) NOT NULL,
+  itemThumb VARCHAR(200) NOT NULL,
+  storeId INT NOT NULL,
+  imageURL VARCHAR(200) NOT NULL,
+  helpful INT NOT NULL
+);
