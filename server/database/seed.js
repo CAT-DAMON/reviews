@@ -1,78 +1,58 @@
 const faker = require('faker');
-const { insert } = require('../postgresql/postIndex.js');
-const images = require('./birds.js');
+const fake = require('./birds.js');
+const fs = require('fs');
+const path = require('path');
+const file = path.join(__dirname, 'psqlData.csv');
+const writeReviews = fs.createWriteStream(file, {flags: 'a'});
 
-// class Seed {
-//   constructor() {
-//     this.userId = faker.internet.userName()
-//     this.userName = faker.name.findName()
-//     this.userThumb = faker.image.avatar()
-//     this.createdAt = date
-//     this.rating = Math.ceil(Math.random() * 5)
-//     this.body = faker.lorem.sentences()
-//     this.itemId = itemId
-//     this.itemName = itemList[itemId]
-//     this.itemThumb = images.birds[birdCount];
-//     this.storeId = store
-//     this.imageURL = images.reviewImages[revIMG],
-//     this.helpful = Math.floor(Math.random() * 20);
-
-//   }
-
-
-
-//   createItems() {
-//     let birdCount = 0
-//     let revIMG = 0;
-
-//     for (let x = 1; x < 101; x++) {
-//       for (let i = 0; i < Math.ceil(Math.random() * 3) * 5; i++) {
-//         this.
-//         insert(schema, )
-//       }
-//     }
-//   }
-// }
-
-const seed = (store) => {
-  const schema = 'userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful';
-  console.log('BEGIN SEEDING');
+const seed = () => {
   let birdCount = 0
   let revIMG = 0;
   let results = [];
-  for (let s = 0; s < 5; s++) {
+  for (let s = 0; s < 10000; s++) {
     for (let d = 0; d < 100; d++) {
       let itemId = d;
-      for (let c = 0; c < Math.ceil(Math.random() * 3) * 3; c++) {
-        var date = new Date(faker.date.past(6)).toUTCString()
+      for (let c = 0; c < 5; c++) {
+        let date = new Date(faker.date.past(6)).toUTCString().split(',').slice(1);
         if (birdCount === 27) {
           birdCount = 0;
         }
         if (revIMG === 15) {
           revIMG = 0;
         }
-        var mockData = `'${faker.internet.userName()}', '${images.names[Math.floor(Math.random() * 650)]}', '${faker.image.avatar()}', '${date}', '${Math.ceil(Math.random() * 5)}', '${faker.lorem.sentences()}', '${itemId}', '${images.productNames[itemId]}', '${images.birds[birdCount]}', '${store}', '${images.reviewImages[revIMG]}', '${Math.floor(Math.random() * 20)}'`;
-        insert(schema, mockData)
+        let mockData = `${faker.internet.userName()},${fake.names[Math.floor(Math.random() * 650)]},${faker.image.avatar()},${date},${Math.ceil(Math.random() * 5)},${faker.lorem.sentences()},${itemId},${fake.productNames[itemId]},${faker.image.imageUrl()},${s},${faker.image.imageUrl()},${Math.floor(Math.random() * 20)}\n`;
         birdCount++;
         revIMG++;
+        writeReviews.write(mockData, (err) => {
+          if (err) {
+            console.error(err);
+          }
+        })
       }
     }
   }
 }
 
-var count = 1
-var start = new Date().getSeconds();
-var end;
-var seeder = setInterval(() => {
-  console.log(count)
-  seed(count)
-  count++
-  if (count === 20000) {
-    clearInterval(seeder);
-    end = new Date().getSeconds();
-    console.log(`SEEDING TOOK ${end - start} SECONDS`)
-  };
-}, 250);
+var controller = (limit) => {
+  var pacer = setImmediate(() => {
+    seed();
+    console.log(limit * 10000000)
+    if (limit < 5) {
+      controller(++limit);
+    } else {
+      return;
+    }
+  });
+}
+
+controller(1);
+// controller(200);
+// controller(300);
+// controller(400);
+// controller(500);
+
+
+
 
 
 

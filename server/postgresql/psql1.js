@@ -17,7 +17,7 @@ const insert = (schema, mockData) => {
       console.error(err, 'POSTGRES QUERY 1')
     }
   });
-  console.log(count);
+  // console.log(count);
   count++;
 }
 

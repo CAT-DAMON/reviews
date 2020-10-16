@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 // const reviews = require('./database/helpers.js')
-const postgres = require('./postgresql/postIndex.js');
+const postgres = require('./postgresql/psql1.js');
 const app = express()
 
 app.use(cors())
