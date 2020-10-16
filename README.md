@@ -17,7 +17,11 @@
 
 ## Usage
 
-> Some usage instructions
+> API
+get - api/listing/:listingId
+post - api/add-listing
+delete - api/delete-listing
+put - api/modify-listing
 
 ## Requirements
 
