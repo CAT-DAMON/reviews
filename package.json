@@ -7,8 +7,7 @@
     "test": "jest --forceExit --detectOpenHandles",
     "start": "nodemon server/start.js",
     "build": "webpack",
-    "db:setup": "node server/database/seed.js",
-    "upload": "grunt s3"
+    "build:csv": "node --max-old-space-size=8192 server/database/seed.js"
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
