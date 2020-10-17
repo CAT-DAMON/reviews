@@ -1,8 +1,10 @@
 const faker = require('faker');
-const fake = require('./birds.js');
+const fake = require('./seedValues.js');
 const fs = require('fs');
 const path = require('path');
-const file = path.join(__dirname, 'sampleData2.csv');
+const { Timer } = require('../../point_in_time_v1/timer.js');
+const StopWatch = new Timer()
+const file = path.join(__dirname, 'sampleData5.csv');
 const writeReviews = fs.createWriteStream(file, {flags: 'a'});
 
 const seed = (storeStart, storeEnd) => {
@@ -21,25 +23,26 @@ const seed = (storeStart, storeEnd) => {
     }
   }
 }
-
-var storeCountStart = 50000
-var storeCountEnd = 60000
-// START BACK AT 0
-var time = new Date()
-var start = time.getTime() / 1000;
+// CSV1 SETTINGS
+// START = 0
+// END = 10,000
+// CSV2 SETTINGS
+// START = 50,000
+// END = 60,000
+var storeCountStart = 0
+var storeCountEnd = 1000
+var start = StopWatch.start('seconds');
 console.log('WRITING TO CSV IN 5 ROUNDS \n0/5 ROUNDS INSERTED...')
 var controller = (limit) => {
-  var pacer = setImmediate(() => {  // using setImmediate to clear some memory between calls
+  var pacer = setImmediate(() => {
     seed(storeCountStart, storeCountEnd);
-    console.log(limit + '/5 ROUNDS INSERTED...' ) // 5,000,000 reviews AVERAGE added everytime it is reached this point
+    console.log(limit + '/5 ROUNDS INSERTED...' )
     if (limit < 5) {
       storeCountStart = storeCountEnd;
-      storeCountEnd += 10000;
+      storeCountEnd += 1000;
       controller(++limit);
     } else {
-      let endTime = new Date();
-      let end = endTime.getTime() / 1000;
-      console.log(`FINISHED IN ${Math.floor((end - start) / 60)} MIN ${Math.floor((end  - start) % 60)} SECONDS`);
+      console.log(StopWatch.end(start));
       return;
     }
   });

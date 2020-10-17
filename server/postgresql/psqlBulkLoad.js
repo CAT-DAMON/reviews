@@ -9,6 +9,7 @@ const client = new Client({
   port: 5432
 });
 client.connect();
+
 const headings = 'userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful';
 const file = '/Users/jasedinardo/SDC/Reviews/server/database/sampleData1.csv';
 var count = 2;
@@ -20,7 +21,7 @@ const bulkLoad = (schema, mockData) => {
     if (err) {
       console.error(err, 'POSTGRES BULK LOAD')
     }
-    console.log(StopWatch.end(start, 'seconds'))
+    console.log(StopWatch.end(start));
   });
 };
-bulkLoad()
+bulkLoad();

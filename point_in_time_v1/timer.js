@@ -1,21 +1,28 @@
-
 class Timer {
   constructor(props) {
-    this.moment = () => new Date().getTime() / 1000;
+    this.timeCapsule = {
+      moment: null,
+      interval: ''
+    };
   }
+
+  moment = (interval) => {
+    if (interval === 'seconds') {
+      return new Date().getTime() / 1000;
+    }
+  }
+
   start = (interval) => {
-    if (interval === 'seconds') {
-      return this.moment()
-    }
+    this.timeCapsule.interval = interval;
+    this.timeCapsule.moment = this.moment(interval);
+    return this.timeCapsule;
   };
-  end = (start, interval) => {
-    if (interval === 'seconds') {
-      let end = this.moment();
-      return `FINISHED IN ${Math.floor((end - start) / 60)} MIN ${Math.floor((end  - start) % 60)} SECONDS`
-    }
+
+  end = (timeCapsule) => {
+    let start = timeCapsule.moment;
+    let end = this.moment('seconds');
+    return `FINISHED IN ${Math.floor((end - start) / 60)} MIN ${Math.floor((end  - start) % 60)} SECONDS`
+
   };
 }
-
-module.exports = {Timer}
-
-
+module.exports = {Timer};
