@@ -40,12 +40,12 @@ bin/dsbulk load -k sdc -t reviews --connector.csv.urlfile "server/database/sampl
 // CREATES THE SAMPLEDATA1 AND SAMPLEDATA2 FILES
 // EACH FILE CARRIES 25M
 // ::TIMING::
-// POSTGRESQL - [NEED TO RECORD]
-// CASSANDRA - '24995000 rows imported from 1 files in 17 minutes and 18.998 seconds (0 skipped) Avg. rate:   24057 rows/s'
-//              NOTE: last 5000 may not have been recorded
+// POSTGRESQL - '2:30 to Add 25M, no loss recorded. Query time is under 500ms for all of 1 store (500 items sorted)
+// CASSANDRA - '24995000 rows imported in 17 minutes and 18.998 seconds (0 skipped) Avg. rate:   24057 rows/s'
+//              NOTE: last 5000 have not been recorded, there was a loss at very end
 COPY reviews(userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful)
 FROM '/Users/jasedinardo/SDC/Reviews/server/database/sampleData1.csv'
-WITH DELIMETER=',';
+WITH DELIMITER=',';
 COPY reviews(userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful)
 FROM '/Users/jasedinardo/SDC/Reviews/server/database/sampleData2.csv'
-WITH DELIMETER=',';
+WITH DELIMITER ',';

@@ -2,7 +2,7 @@ const faker = require('faker');
 const fake = require('./birds.js');
 const fs = require('fs');
 const path = require('path');
-const file = path.join(__dirname, 'sampleData3.csv');
+const file = path.join(__dirname, 'sampleData2.csv');
 const writeReviews = fs.createWriteStream(file, {flags: 'a'});
 
 const seed = (storeStart, storeEnd) => {
@@ -22,13 +22,14 @@ const seed = (storeStart, storeEnd) => {
   }
 }
 
-var storeCountStart = 0
-var storeCountEnd = 10000
+var storeCountStart = 50000
+var storeCountEnd = 60000
+// START BACK AT 0
 var controller = (limit) => {
   var pacer = setImmediate(() => {  // using setImmediate to clear some memory between calls
     seed(storeCountStart, storeCountEnd);
     console.log(limit * 5000000) // 5,000,000 reviews added everytime it is reached this point
-    if (limit < 1) {
+    if (limit < 5) {
       storeCountStart = storeCountEnd;
       storeCountEnd += 10000;
       controller(++limit);
@@ -38,3 +39,4 @@ var controller = (limit) => {
   });
 }
 controller(1);
+// controller(5)
