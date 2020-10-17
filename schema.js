@@ -45,7 +45,7 @@ bin/dsbulk load -k sdc -t reviews --connector.csv.urlfile "server/database/sampl
 //              NOTE: last 5000 have not been recorded, there was a loss at very end
 COPY reviews(userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful)
 FROM '/Users/jasedinardo/SDC/Reviews/server/database/sampleData1.csv'
-WITH DELIMITER=',';
+WITH DELIMITER ',';
 COPY reviews(userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful)
 FROM '/Users/jasedinardo/SDC/Reviews/server/database/sampleData2.csv'
 WITH DELIMITER ',';

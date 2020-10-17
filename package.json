@@ -7,7 +7,8 @@
     "test": "jest --forceExit --detectOpenHandles",
     "start": "nodemon server/start.js",
     "build": "webpack",
-    "build:csv": "node --max-old-space-size=8192 server/database/seed.js"
+    "build:csv": "node --max-old-space-size=8192 server/database/seed.js",
+    "build:pg": "node server/postgresql/psqlBulkLoad.js"
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
