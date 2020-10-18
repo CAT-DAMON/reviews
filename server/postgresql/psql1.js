@@ -1,15 +1,15 @@
 const { Timer } = require('../../point_in_time_v1/timer.js');
 const StopWatch = new Timer();
 
-const { psqlConfig, psqlTestHeader } = require('../../db.config.js');
+const { psql } = require('../../db.config.js');
 const { Client } = require('pg');
-const client = new Client(psqlConfig);
+const client = new Client(psql.config);
 client.connect();
-console.log(psqlTestHeader);
+console.log(psql.testHeader);
 
-const getItems = (storeId, itemId) => {
+const getItems = (storeId, itemId, order = 'createdAt') => {
   var start = StopWatch.start('milliseconds')
-  const query = `SELECT * FROM reviews WHERE storeId = ${storeId} AND itemId = ${itemId};`;
+  const query = `SELECT * FROM reviews WHERE storeId = ${storeId} AND itemId = ${itemId} ORDER BY ${order} DESC;`;
   return client.query(query, (err, res) => {
     if (err) {
       console.error(err);
@@ -19,11 +19,11 @@ const getItems = (storeId, itemId) => {
     }
   })
 }
-getItems(1000, 5);
+getItems(1000, 5, 'helpful');
 
-const getStore = (storeId) => {
+const getStore = (storeId, order = 'createdAt') => {
   var start = StopWatch.start('milliseconds')
-  client.query(`SELECT * FROM reviews WHERE storeId = ${storeId}`, (err, res) => {
+  client.query(`SELECT * FROM reviews WHERE storeId = ${storeId} ORDER BY ${order} DESC`, (err, res) => {
     if (err) {
       console.error
     } else {

@@ -1,11 +1,17 @@
-module.exports.psqlConfig = {
+module.exports.psql = {
+  config: {
     user: 'username',
     host: 'localhost',
     database: 'sdc',
     password: 'password123',
     port: 5432
+  },
+  testHeader: 'POSTGRESQL W/ 40M IN DATABASE \n::.........................::\n',
+  bulkLoad: `COPY reviews(userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful)
+FROM '/Users/jasedinardo/SDC/Reviews/server/database/sampleData2.csv'
+WITH DELIMITER = ',';`
+
 };
-module.exports.psqlTestHeader = 'POSTGRESQL W/ 40M IN DATABASE \n::.........................::\n';
 
 
 module.exports.cass = {
@@ -14,6 +20,9 @@ module.exports.cass = {
   localDataCenter: 'datacenter1',
   keyspace: 'sdc'
   },
-  testHeader: 'CASSANDRA W/ 40M IN DATABASE \n::........................::\n'
+  testHeader: 'CASSANDRA W/ 40M IN DATABASE \n::........................::\n',
+  bulkLoad: `COPY reviews(userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful)
+FROM '/Users/jasedinardo/SDC/Reviews/server/database/sampleData2.csv'
+WITH DELIMITER = ',';`
 };
 

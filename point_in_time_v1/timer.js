@@ -21,15 +21,13 @@ class Timer {
   };
 
   end = (timeCapsule) => {
+    var end = this.moment('milliseconds');
+    var start = timeCapsule.moment;
     if (timeCapsule.interval === 'milliseconds') {
-      let start = timeCapsule.moment;
-      let end = this.moment('milliseconds');
       return `FINISHED IN ${end - start} Milliseconds`
     } else if (timeCapsule.interval === 'seconds') {
-      let start = timeCapsule.moment;
-      let end = this.moment('seconds');
       return `FINISHED IN ${Math.floor((end - start) / 60)} MIN ${Math.floor((end  - start) % 60)} SECONDS`
     }
   };
 }
-module.exports = {Timer};
+module.exports = { Timer };
