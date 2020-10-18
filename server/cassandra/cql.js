@@ -1,11 +1,12 @@
 const { Timer } = require('../../point_in_time_v1/timer.js');
 const StopWatch = new Timer();
+const { cass } = require('../../db.config.js');
+console.log(cass.testHeader);
 
 const cassandra = require('cassandra-driver');
-const { cassConfig } = require('../../db.config.js');
-const cass = new cassandra.Client(cassConfig);
+const client = new cassandra.Client(cass.config);
 
-cass.connect((err) => {
+client.connect((err) => {
   if (err) {
     console.error(err);
   } else {
@@ -16,7 +17,7 @@ cass.connect((err) => {
 const getItem = (storeId, itemId) => {
   const query = `SELECT * FROM reviews WHERE storeId = ${storeId} AND itemId = ${itemId} ALLOW FILTERING;`;
   var start = StopWatch.start('milliseconds');
-  cass.execute(query, null, { prepare: true })
+  client.execute(query)
     .then((reviews) => {
       console.log(StopWatch.end(start), 'Cassandra - getItem')
       // console.log(reviews);
@@ -31,10 +32,10 @@ getItem(1000, 5);
 const getStore = (storeId) => {
   const query = `SELECT * FROM reviews WHERE storeId = ${storeId}`;
   var start = StopWatch.start('milliseconds');
-  cass.execute(query, null, { prepare: true })
+  client.execute(query)
     .then((items) => {
       console.log(StopWatch.end(start), 'Cassandra - getStore');
     })
 }
 getStore(1000)
-module.exports.cassandra = cass;
+module.exports.cassandra = client;

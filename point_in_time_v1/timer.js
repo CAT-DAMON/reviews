@@ -24,7 +24,7 @@ class Timer {
     if (timeCapsule.interval === 'milliseconds') {
       let start = timeCapsule.moment;
       let end = this.moment('milliseconds');
-      return `FINISHED IN .${end - start} Second(s)`
+      return `FINISHED IN ${end - start} Milliseconds`
     } else if (timeCapsule.interval === 'seconds') {
       let start = timeCapsule.moment;
       let end = this.moment('seconds');
