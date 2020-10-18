@@ -19,10 +19,11 @@ reviews (
 ////////////////////////////////////////////////////////////////
 // CASSANDRA QUERIES ///////////////////////////////////////////
 CREATE KEYSPACE sdc
-WITH replication {class: 'Simple Strategy', replication_factor: 2}
-create table reviews
+WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'} AND durable_writes = 'true';
+////////////////////
+CREATE TABLE reviews
 (
-  userId text PRIMARY KEY,
+  userId text,
   userName text,
   userThumb text,
   createdAt text,
@@ -33,8 +34,13 @@ create table reviews
   itemThumb text,
   storeId int,
   imageURL text,
-  helpful int
-);
+  helpful int,
+  PRIMARY KEY(storeId, itemId)
+)
+WITH CLUSTERING ORDER BY (itemId DESC);
+// export JAVA_HOME=/usr/bin/java
+JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
 // BULK LOAD COMMAND ((NEEDS WORK, MAY NOT BE NECESSARY))
 bin/dsbulk load -k sdc -t reviews --connector.csv.urlfile "server/database/sampleData1.csv"
 // CREATES THE SAMPLEDATA1 AND SAMPLEDATA2 FILES
@@ -44,8 +50,8 @@ bin/dsbulk load -k sdc -t reviews --connector.csv.urlfile "server/database/sampl
 // CASSANDRA - '24995000 rows imported in 17 minutes and 18.998 seconds (0 skipped) Avg. rate:   24057 rows/s'
 //              NOTE: last 5000 have not been recorded, there was a loss at very end
 COPY reviews(userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful)
-FROM '/Users/jasedinardo/SDC/Reviews/server/database/sampleData1.csv'
-WITH DELIMITER ',';
-COPY reviews(userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful)
 FROM '/Users/jasedinardo/SDC/Reviews/server/database/sampleData2.csv'
-WITH DELIMITER ',';
+WITH DELIMITER = ',';
+// COPY reviews(userId, userName, userThumb, createdAt, rating, body, itemId, itemName, itemThumb, storeId, imageURL, helpful)
+// FROM '/Users/jasedinardo/SDC/Reviews/server/database/sampleData2.csv'
+// WITH DELIMITER ',';

@@ -8,10 +8,13 @@
     "start": "nodemon server/start.js",
     "build": "webpack",
     "build:csv": "node --max-old-space-size=8192 server/database/seed.js",
-    "build:pg": "node server/postgresql/psqlBulkLoad.js"
+    "build:pg": "node server/postgresql/psqlBulkLoad.js",
+    "stress:pg": "node server/postgresql/psql1.js",
+    "stress:cass": "node server/cassandra/cql.js"
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
+    "cassandra-driver": "^4.6.0",
     "cors": "^2.8.5",
     "csv-writer": "^1.6.0",
     "express": "4.17.1",

@@ -8,9 +8,9 @@ const file = path.join(__dirname, 'sampleData5.csv');
 const writeReviews = fs.createWriteStream(file, {flags: 'a'});
 
 const seed = (storeStart, storeEnd) => {
-  for (let s = storeStart; s < storeEnd; s++) {                  // 10000 stores
-    for (let d = 0; d < 100; d++) {                              // 100 items
-      for (let c = 0; c < Math.ceil(Math.random() * 11); c++) {  // 5 reviews per item === 5M Rev per Round
+  for (let s = storeStart; s < storeEnd; s++) {
+    for (let d = 0; d < 100; d++) {
+      for (let c = 0; c < Math.ceil(Math.random() * 11); c++) {
         let itemId = d;
         let date = new Date(faker.date.past(6)).toUTCString().split(',').slice(1);
         let mockData = `${faker.internet.userName()},${fake.names[Math.floor(Math.random() * 650)]},${faker.image.avatar()},${date},${Math.ceil(Math.random() * 5)},${faker.lorem.sentences()},${itemId},${fake.productNames[itemId]},${faker.image.imageUrl()},${s},${faker.image.imageUrl()},${Math.floor(Math.random() * 20)}\n`;
@@ -30,7 +30,7 @@ const seed = (storeStart, storeEnd) => {
 // START = 50,000
 // END = 60,000
 var storeCountStart = 0
-var storeCountEnd = 1000
+var storeCountEnd = 100
 var start = StopWatch.start('seconds');
 console.log('WRITING TO CSV IN 5 ROUNDS \n0/5 ROUNDS INSERTED...')
 var controller = (limit) => {
@@ -39,7 +39,7 @@ var controller = (limit) => {
     console.log(limit + '/5 ROUNDS INSERTED...' )
     if (limit < 5) {
       storeCountStart = storeCountEnd;
-      storeCountEnd += 1000;
+      storeCountEnd += 100;
       controller(++limit);
     } else {
       console.log(StopWatch.end(start));
