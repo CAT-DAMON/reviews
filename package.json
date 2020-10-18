@@ -9,7 +9,7 @@
     "build": "webpack",
     "build:csv": "node --max-old-space-size=8192 server/database/seed.js",
     "build:pg": "node server/postgresql/psqlBulkLoad.js",
-    "stress:pg": "node server/postgresql/psql1.js",
+    "stress:pg": "node server/postgresql/psql.js",
     "stress:cass": "node server/cassandra/cql.js"
   },
   "dependencies": {

@@ -13,7 +13,6 @@ const bulkLoad = () => {
       let end = StopWatch.end(start);
       console.log(end);
     })
-
 }
 
 
