@@ -80,11 +80,11 @@ const wipeTable = (tableName) => {
 };
 
 (async function stressCass(tableIsDirty) {
-  await addReview();
   const results = await getItem(20, 10);
   const data = results.rows[0];
   const storeId = data.storeid;
   await getStore(storeId);
+  await addReview();
   if (tableIsDirty) {
     wipeTable('reviews');
   };
