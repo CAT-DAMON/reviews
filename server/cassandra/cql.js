@@ -84,11 +84,7 @@ const wipeTable = (tableName) => {
   const results = await getItem(20, 10);
   const data = results.rows[0];
   const storeId = data.storeid;
-  const body = data.body;
-  const updatedHelpful = data.helpful + 1;
   await getStore(storeId);
-  // await isHelpful(updatedHelpful, storeId, body);
-  // await isOffensiveReview(storeId, body);
   if (tableIsDirty) {
     wipeTable('reviews');
   };
