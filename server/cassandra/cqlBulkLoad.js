@@ -8,14 +8,14 @@ client.connect();
 
 const bulkLoad = () => {
   var start = StopWatch.start('seconds');
-  client.query(cass.bulkLoad)
+  client.execute(cass.bulkLoad)
     .then((confirm) => {
-      let end = StopWatch.end(start);
-      console.log(end);
+      StopWatch.end(start, 'Cassandra: bulkLoad', confirm)();
     })
-}
+    .catch((err) => {
+      console.error(err);
+    });
+};
+bulkLoad();
 
-
-
-
-
+// CURRENTLY THE QUERY ONLY WORKS IN COMMAND LINE //

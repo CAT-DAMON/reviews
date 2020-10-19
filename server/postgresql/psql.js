@@ -9,12 +9,11 @@ const client = new Client(psql.config);
 client.connect();
 
 const addReview = (review) => {
-  var start = StopWatch.start('milliseconds');
+  const start = StopWatch.start('milliseconds');
   return client.query(psql.insert)
     .then((newReview) => {
-      let stop = StopWatch.end(start)
-      console.log('insertReview-\n', stop, '\n');
-      return 'inserted review'
+      StopWatch.end(start, 'addReview')();
+      return 'inserted review';
     })
     .catch((err) => {
       console.error(err);
@@ -22,12 +21,11 @@ const addReview = (review) => {
 };
 
 const getItems = (storeId, itemId, order = 'createdAt') => {
-  var start = StopWatch.start('milliseconds')
+  const start = StopWatch.start('milliseconds');
   const query = `SELECT * FROM reviews WHERE storeId = ${storeId} AND itemId = ${itemId} ORDER BY ${order} DESC;`;
   return client.query(query)
     .then((itemReviews) => {
-      let stop = StopWatch.end(start)
-      console.log('getItems-\n', stop, '\n');
+      StopWatch.end(start, 'getItems')();
       return itemReviews;
     })
     .catch((err) => {
@@ -35,13 +33,11 @@ const getItems = (storeId, itemId, order = 'createdAt') => {
     });
 };
 
-
 const getStore = (storeId, order = 'createdAt') => {
-  var start = StopWatch.start('milliseconds');
+  const start = StopWatch.start('milliseconds');
   return client.query(`SELECT * FROM reviews WHERE storeId = ${storeId} ORDER BY ${order} DESC`)
     .then((store) => {
-      let stop = StopWatch.end(start)
-      console.log('getStore-\n', stop, '\n');
+      StopWatch.end(start, 'getStore')();
       return store;
     })
     .catch((err) => {
@@ -49,43 +45,53 @@ const getStore = (storeId, order = 'createdAt') => {
     });
 };
 
-
 const isHelpful = (storeId, id) => {
-  var start = StopWatch.start('milliseconds');
+  const start = StopWatch.start('milliseconds');
   return client.query(`UPDATE reviews SET helpful = helpful + 1 WHERE storeId = ${storeId} AND id = ${id} RETURNING helpful;`)
     .then((updated) => {
-      let stop = StopWatch.end(start);
-      console.log('isHelpful\n', stop, '\n');
-      return updated
-    })
-    .catch((err) => {
-      console.error(err)
-    });
-};
-
-const isOffensiveReview = (storeId, id) => {
-  var start = StopWatch.start('milliseconds');
-  return client.query(`DELETE FROM reviews WHERE storeId = ${storeId} AND id = ${id}`)
-    .then((deleted) => {
-      let stop = StopWatch.end(start);
-      console.log('deleteReview-\n', stop, '\n');
+      StopWatch.end(start, 'isHelpful')();
+      return updated;
     })
     .catch((err) => {
       console.error(err);
     });
 };
 
-async function stressIt() {
-  await addReview() // add review to: store0 at item0 w/ id0
-  const results = await getItems(0, 0, 'helpful');
+const isOffensiveReview = (storeId, id) => {
+  const start = StopWatch.start('milliseconds');
+  return client.query(`DELETE FROM reviews WHERE storeId = ${storeId} AND id = ${id}`)
+    .then((deleted) => {
+      StopWatch.end(start, 'isOffensiveReview')();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+const wipeTable = (tableName) => {
+  const start = StopWatch.start('seconds');
+  return client.query(`DELETE FROM ${tableName};`)
+    .then((confirmation) => {
+      StopWatch.end(start, 'Wipe Table')();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+(async function stressIt(tableIsDirty) {
+  const newReview = await addReview(); // add review to: store100K1 at item0 w/ id0
+  const results = await getItems(20, 10, 'helpful');
   const data = results.rows[0];
   const storeId = data.storeid;
   const id = data.id;
   await getStore(storeId);
-  await isHelpful(storeId, id);
-  await isOffensiveReview(storeId, id);
-}
-stressIt();
+  await isHelpful(200000, 200000000);
+  await isOffensiveReview(200000, 200000000);
+  if (tableIsDirty) {
+    wipeTable('reviews');
+  };
+})();
 
 module.exports = {
   addReview,
@@ -93,4 +99,4 @@ module.exports = {
   getStore,
   isHelpful,
   isOffensiveReview
-}
+};
