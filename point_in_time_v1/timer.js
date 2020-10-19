@@ -27,11 +27,11 @@ class Timer {
     var sec = `FINISHED IN ${Math.floor((end - start) / 60)} MIN ${Math.floor((end  - start) % 60)} SECONDS\n`;
     // IF ADDITIONAL ARGUMENTS ARE USED LOG THOSE FIRST THEN TIME STAMP
     if (timeCapsule.interval === 'milliseconds') {
-      return args ?
+      return args.length > 0 ?
         () => {console.log(args,`\n${assignment}-\n${mil}`)} :
         () => {console.log(`${assignment}-\n${mil}`)};
     } else if (timeCapsule.interval === 'seconds') {
-      return args ?
+      return args.length > 0 ?
         () => {console.log(args,`\n${assignment}-\n${sec}`)} :
         () => {console.log(`${assignment}-\n${sec}`)};
     };
