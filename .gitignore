@@ -1,5 +1,9 @@
 node_modules
 client/dist/reviews.bundle.js
-.aws.json
 server/database/psqlData.txt
-server/database/
+server/database/dsbulk-1.7.0
+
+*.csv
+*.config
+
+schema.js
