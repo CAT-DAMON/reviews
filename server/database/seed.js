@@ -38,7 +38,7 @@ const seed = (storeStart, storeEnd, count) => {
 // END = 60,000
 // STORECOUNTEND += 10,000 Batches 1M items
 var storeCountStart = 0;
-var storeCountEnd = 10000;
+var storeCountEnd = 10;
 var totalCount = 0;
 const start = StopWatch.start('seconds');
 const controller = (limit) => {
