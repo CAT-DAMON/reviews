@@ -14,7 +14,7 @@ class Timer {
     };
   };
 
-  start(interval){
+  start(interval) {
     this.timeCapsule.interval = interval;
     this.timeCapsule.moment = this.moment(interval);
     return this.timeCapsule;
