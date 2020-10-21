@@ -1,45 +1,81 @@
-const path = require('path')
-const cors = require('cors')
+const path = require('path');
+const cors = require('cors');
+require('newrelic');
+const {addReview, getItems, getStore, isHelpful, isOffensiveReview, getPhotos} = require('./postgresql/psql.js');
 
-// const postgres = require('./postgresql/psql1.js');
-// const {cassandra} = require('./cassandra/cql.js');
+const express = require('express');
+const app = express();
 
-const express = require('express')
-const app = express()
-
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-app.use('/listing/:itemId', express.static(path.join(__dirname, '../client/dist')))
-
-app.get('/api-item/:store/:itemId/:sort', (req, res) => {
-  // get Item sorted
-  res.send('got items from store');
-})
-
-app.get('/api-store/:store/:sort', (req, res) => {
-  // get Store sorted
-  res.send('got the whole store');
-});
-
-app.get('/api/photo-reviews/:itemId', (req, res) => {
-  // get photos/ reviews for modal
-  res.send('got modal reviews');
-})
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use('/listing/:storeId/:itemId', express.static(path.join(__dirname, '../client/dist')));
 
 app.post('/api/create-review', (req, res) => {
-  // add a review
-  res.send('created');
-})
+  const api = req.body;
+  return addReview()
+    .then((confirmation) => {
+      res.send('created');
+    })
+    .catch((err) => {
+      res.header(500).send(confirmation)
+    });
+});
 
-app.put('/api/helpful-review', (req, res) => {
-  // add 1 to helpful
-  res.send('updated')
-})
+app.get('/api-photos/:store/:item', (req, res) => {
+  const api = req.params;
+  return getPhotos(api.store, api.item)
+    .then((photos) => {
+      res.send(photos.rows);
+    })
+    .catch((err) => {
+      res.header(500).send(err);
+    });
+});
 
-app.delete('/remove/:item/from/:store', (req, res) => {
-  // remove from database
-  res.send('deleted')
-})
+app.get('/api-store/:store/:sort', (req, res) => {
+  const api = req.params;
+  return getStore(api.store, api.sort)
+    .then((storeData) => {
+      res.send(storeData.rows);
+    })
+    .catch((err) => {
+      res.header(500).send(confirmation)
+    });
+});
+
+app.get('/api-items/:store/:item/:sort', (req, res) => {
+  const api = req.params;
+  return getItems(api.store, api.item, api.sort)
+    .then((itemData) => {
+      res.send(itemData.rows);
+    })
+    .catch((err) => {
+      res.header(500).send(confirmation)
+    });
+});
+
+
+app.put('/api-update/:id', (req, res) => {
+  const api = req.params;
+  return isHelpful(api.id)
+    .then((confirmation) => {
+      res.send('updated');
+    })
+    .catch((err) => {
+      res.header(500).send(confirmation)
+    });
+});
+
+app.delete('/api-delete/:store/:id', (req, res) => {
+  const api = req.params;
+  return isOffensiveReview(api.store, api.id)
+    .then((confirmation) => {
+      res.send(confirmation);
+    })
+    .catch((err) => {
+      res.header(500).send(confirmation)
+    })
+});
 
 module.exports = app;

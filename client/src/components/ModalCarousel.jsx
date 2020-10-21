@@ -21,14 +21,14 @@ const ModalCarousel = ({ reviewIdx, reviews, show, isCarousel, toggleShow, handl
       {reviews.map((review, idx) =>
         <Carousel.Item key={idx}>
           <Row>
-            <Col><img className="review-img" src={review.imageUrl}></img></Col>
+            <Col><img className="review-img" src={review.imageurl}></img></Col>
             <Col xs={5}>
               <Row className="review-text">
-                <Col xs={2}> <img width={36} height={36} className="user-icon" src={review.userThumb}/>
+                <Col xs={2}> <img width={36} height={36} className="user-icon" src={review.userthumb}/>
                 </Col>
                 <Col>
                 <div>{moment(review.createdAt).format('ll')}</div>
-                <div className="username">{review.userName}</div>
+                <div className="username">{review.username}</div>
                 </Col>
               </Row>
               <div className="body">
