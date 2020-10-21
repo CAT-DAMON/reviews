@@ -6,7 +6,7 @@ class Timer {
     };
   };
 
-  moment = (interval) => {
+  moment(interval) {
     if (interval === 'milliseconds') {
       return new Date().getTime();
     } else if (interval === 'seconds') {
@@ -14,13 +14,13 @@ class Timer {
     };
   };
 
-  start = (interval) => {
+  start(interval){
     this.timeCapsule.interval = interval;
     this.timeCapsule.moment = this.moment(interval);
     return this.timeCapsule;
   };
 
-  end = (timeCapsule, assignment = '[ASSIGNMENT]', ...args) => {
+  end(timeCapsule, assignment = '[ASSIGNMENT]', ...args) {
     var end = this.moment(timeCapsule.interval);
     var start = timeCapsule.moment;
     var mil = `FINISHED IN ${end - start} Milliseconds\n`;

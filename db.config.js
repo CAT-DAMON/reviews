@@ -1,7 +1,9 @@
+
+
 module.exports.psql = {
   config: {
-    user: 'jase',
-    host: '13.57.245.187',
+    user: 'username',
+    host: 'localhost',
     database: 'sdc',
     password: 'keeppushing',
     port: 5432
