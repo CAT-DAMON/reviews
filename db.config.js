@@ -2,10 +2,10 @@
 
 module.exports.psql = {
   config: {
-    user: 'username',
-    host: 'localhost',
-    database: 'sdc',
-    password: 'keeppushing',
+    user: '',
+    host: '',
+    database: '',
+    password: '',
     port: 5432
   },
   testHeader: 'POSTGRESQL W/ 60M IN DATABASE\n::.........................::\n',
@@ -20,7 +20,7 @@ module.exports.cass = {
   config: {
   contactPoints: ['localhost'],
   localDataCenter: 'datacenter1',
-  keyspace: 'sdc'
+  keyspace: ''
   },
   testHeader: 'CASSANDRA W/ 60M IN DATABASE \n::........................::\n',
   bulkLoad: `COPY reviews(storeId, itemId, createdAt, helpful, userId, userName, userThumb, rating, body, itemName, itemThumb, imageURL) FROM '/Users/jasedinardo/SDC/Reviews/server/database/sampleData2.csv' WITH DELIMITER = ',';`,
