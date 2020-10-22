@@ -1,6 +1,6 @@
 const path = require('path')
 const cors = require('cors')
-
+require('newrelic');
 // const postgres = require('./postgresql/psql1.js');
 // const {cassandra} = require('./cassandra/cql.js');
 

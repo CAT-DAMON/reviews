@@ -2,10 +2,10 @@
 
 module.exports.psql = {
   config: {
-    user: '',
-    host: '',
-    database: '',
-    password: '',
+    user: 'jase',
+    host: 'localhost',
+    database: 'sdc',
+    password: 'keeppushing',
     port: 5432
   },
   testHeader: 'POSTGRESQL W/ 60M IN DATABASE\n::.........................::\n',
