@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --forceExit --detectOpenHandles",
-    "start": "nodemon server/start.js",
+    "start": "nodemon --max-old-space-size=3800 server/start.js",
     "build": "webpack -d --watch",
     "build:csv": "node --max-old-space-size=8192 server/database/seed.js",
     "build:pg": "node server/postgresql/psqlBulkLoad.js",
     "build:cass": "node server/cassandra/cqlBulkLoad.js",
     "stress:pg": "node server/postgresql/psql.js",
-    "stress:cass": "node server/cassandra/cql.js"
+    "stress:cass": "node server/cassandra/cql.js",
+    "stress:service": "$(npm bin)/artillery run stress-pg.json"
   },
   "dependencies": {
     "bootstrap": "^4.5.2",

@@ -1,0 +1,21 @@
+{
+  "config": {
+    "target": "http://localhost:3001",
+    "tls": {"rejectionUnauthorized": false},
+    "phases": [
+      {"duration": 60, "arrivalRate": 1, "name": "Warming Up"}
+    ]
+  },
+  "scenarios": [
+    {
+      "flow": [
+        {
+          "loop": [
+            {"get": {"url": "/listing/90000/56"}}
+          ],
+          "count": 1000
+        }
+      ]
+    }
+  ]
+}
