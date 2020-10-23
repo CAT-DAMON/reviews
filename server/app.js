@@ -12,8 +12,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/listing/:storeId/:itemId', express.static(path.join(__dirname, '../client/dist')));
-app.use(/*'FILL_ME_IN'*/, express.static(path.join(__dirname, '../loader.io.txt')));
-
+app.use('/loaderio-e4d15dd1d7b1e4b225d4d4213677c7bc.txt', express.static(path.join(__dirname, '../loader.io.txt')));
+app.use('/get-bundle', express.static(path.join(__dirname, '../client/dist/reviews.bundle.js')));
 app.post('/api/create-review/:storeId/:itemId', (req, res) => {
   const api = req.params;
   return addReview(req.body, api.storeId, api.itemId)
@@ -26,8 +26,10 @@ app.post('/api/create-review/:storeId/:itemId', (req, res) => {
 });
 
 app.get('/api-photos/:store/:item', (req, res) => {
-  const api = req.params;
-  if (api.store < 50000) {
+ const api = req.params;
+ console.log('got')
+ if (api.store < 50000) {
+    console.log('gotten')	 
     return getPhotos(api.store, api.item)
       .then((photos) => {
         res.send(photos.rows);
@@ -91,10 +93,10 @@ app.get('/api-items/:store/:item/:sort', (req, res) => {
 
 
 
-app.patch('/api-helpful/store:/:id', (req, res) => {
+app.patch('/api-helpful/:store/:id', (req, res) => {
   const api = req.params;
   if (api.store < 50000) {
-    return isHelpful(api.id)
+    return isHelpful(api.store, api.id)
       .then((confirmation) => {
         res.send('updated');
       })
@@ -102,7 +104,7 @@ app.patch('/api-helpful/store:/:id', (req, res) => {
         res.header(500).send(confirmation)
       });
   } else {
-    return isHelpful2(api.id)
+    return isHelpful2(api.store, api.id)
     .then((confirmation) => {
       res.send('updated');
     })

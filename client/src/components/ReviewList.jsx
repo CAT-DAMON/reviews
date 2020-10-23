@@ -38,7 +38,7 @@ class ReviewList extends React.Component {
   }
 
   getItemReviews(sort) {
-    $.get(`http://54.183.239.46:3001/api-items/${this.state.storeId}/${this.state.id}/${this.state.sort}`)
+    $.get(`http://54.193.98.52:3001/api-items/${this.state.storeId}/${this.state.id}/${this.state.sort}`)
       .done((reviews) => {
         console.log(reviews)
         this.setState({ itemReviews: reviews })
@@ -49,7 +49,7 @@ class ReviewList extends React.Component {
   }
 
   getShopReviews(sort) {
-    $.get(`http://54.183.239.46:3001/api-store/${this.state.storeId}/${this.state.sort}`)
+    $.get(`http://54.193.98.52:3001/api-store/${this.state.storeId}/${this.state.sort}`)
       .done((reviews) => {
         this.setState({ shopReviews: reviews })
       })
@@ -92,10 +92,10 @@ class ReviewList extends React.Component {
 
   clickHelpful(e) {
     e.target.style.display = 'none';
-    console.log(e.target.id)
+    console.log(e.target)
 	  document.getElementById(`${e.target.id}-thanks`).style.display = 'inline';
     $.ajax({
-      url: `http://54.183.239.46:3001/api-helpful/${e.target.storeId}/${e.target.id}`,
+      url: `http://54.193.98.52:3001/api-helpful/${this.state.storeId}/${e.target.id}`,
       method: 'PATCH'
     })
     .done((changed) => {

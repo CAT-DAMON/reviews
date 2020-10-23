@@ -2,9 +2,9 @@
 module.exports.psql = {
   config: {
     user: 'jase',
-    host: '',
+    host: 'localhost',
     database: 'sdc',
-    password: process.env.SDCPWD,
+    password: 'keeppushing',
     port: 5432
   },
   testHeader: 'POSTGRESQL W/ 60M IN DATABASE\n::.........................::\n',
@@ -15,12 +15,12 @@ WITH DELIMITER ',';`,
 
 };
 
-module.exports.psq2 = {
+module.exports.psql2 = {
   config: {
     user: 'jase',
-    host: '',
+    host: '54.67.22.231',
     database: 'sdc',
-    password: process.env.SDCPWD,
+    password: 'keeppushing',
     port: 5432
   },
   testHeader: 'POSTGRESQL W/ 60M IN DATABASE\n::.........................::\n',
