@@ -47,7 +47,7 @@ const getItems = (storeId, itemId, order = 'createdAt') => {
 
 const getStore = (storeId, order = 'createdAt') => {
   const start = StopWatch.start('milliseconds');
-  return client.query(`SELECT * FROM reviews WHERE storeId = ${storeId} ORDER BY ${order} DESC`)
+  return client.query(`SELECT * FROM reviews WHERE storeId = ${storeId} ORDER BY ${order} DESC LIMIT 300`)
   .then((store) => {
     StopWatch.end(start, 'getStore')();
     return store;
@@ -103,7 +103,7 @@ const wipeTable = (tableName) => {
   if (tableIsDirty) {
     wipeTable('reviews');
   };
-});
+})();
 
 module.exports = {
   addReview,
