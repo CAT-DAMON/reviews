@@ -19,6 +19,19 @@ const addReview = (review) => {
   });
 };
 
+const getPhotos = (storeId, itemId, order = 'createdAt') => {
+  const start = StopWatch.start('milliseconds');
+  const query = `SELECT * FROM reviews WHERE storeId = ${storeId} LIMIT 20`;
+  return client.query(query)
+    .then((photos) => {
+      StopWatch.end(start, 'getPhotos');
+      return photos;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
 const getItems = (storeId, itemId, order = 'createdAt') => {
   const start = StopWatch.start('milliseconds');
   const query = `SELECT * FROM reviews WHERE storeId = ${storeId} AND itemId = ${itemId} ORDER BY ${order} DESC;`;
@@ -44,9 +57,9 @@ const getStore = (storeId, order = 'createdAt') => {
   });
 };
 
-const isHelpful = (storeId, id) => {
+const isHelpful = (id) => {
   const start = StopWatch.start('milliseconds');
-  return client.query(`UPDATE reviews SET helpful = helpful + 1 WHERE storeId = ${storeId} AND id = ${id} RETURNING helpful;`)
+  return client.query(`UPDATE reviews SET helpful = helpful + 1 WHERE id = ${id} RETURNING helpful;`)
   .then((updated) => {
     StopWatch.end(start, 'isHelpful')();
     return updated;
@@ -85,15 +98,16 @@ const wipeTable = (tableName) => {
   const results = await getItems(20, 10, 'helpful');
   const storeId = results.rows[0]['storeid'];
   await getStore(storeId);
-  await isHelpful(newStoreId, newId);
+  await isHelpful(newId);
   await isOffensiveReview(newStoreId, newId);
   if (tableIsDirty) {
     wipeTable('reviews');
   };
-})();
+});
 
 module.exports = {
   addReview,
+  getPhotos,
   getItems,
   getStore,
   isHelpful,

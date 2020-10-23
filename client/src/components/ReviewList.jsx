@@ -20,12 +20,13 @@ class ReviewList extends React.Component {
 
     this.state = {
       id: this.props.itemId,
+      storeId: this.props.storeId,
       itemReviews: [],
       shopReviews: [],
       currentTab: 'items',
       pageNum: 1,
       maxPage: 1,
-      sort: 'rec'
+      sort: 'createdAt'
     };
 
     this.getItemReviews = this.getItemReviews.bind(this);
@@ -37,8 +38,9 @@ class ReviewList extends React.Component {
   }
 
   getItemReviews(sort) {
-    $.get(`http://localhost:3001/api/item-reviews/${this.state.id}/${sort}`)
+    $.get(`http://54.183.239.46:3001/api-items/${this.state.storeId}/${this.state.id}/${this.state.sort}`)
       .done((reviews) => {
+        console.log(reviews)
         this.setState({ itemReviews: reviews })
       })
       .fail(() => {
@@ -47,7 +49,7 @@ class ReviewList extends React.Component {
   }
 
   getShopReviews(sort) {
-    $.get(`http://localhost:3001/api/store-reviews/${this.state.id}/${sort}`)
+    $.get(`http://54.183.239.46:3001/api-store/${this.state.storeId}/${this.state.sort}`)
       .done((reviews) => {
         this.setState({ shopReviews: reviews })
       })
@@ -90,9 +92,10 @@ class ReviewList extends React.Component {
 
   clickHelpful(e) {
     e.target.style.display = 'none';
-    document.getElementById(`${e.target.id}-thanks`).style.display = 'inline';
+    console.log(e.target.id)
+	  document.getElementById(`${e.target.id}-thanks`).style.display = 'inline';
     $.ajax({
-      url: `/api/helpful-review/${e.target.id}`,
+      url: `http://54.183.239.46:3001/api-helpful/${e.target.id}`,
       method: 'PATCH'
     })
     .done((changed) => {
@@ -104,8 +107,8 @@ class ReviewList extends React.Component {
   }
 
   componentDidMount() {
-    this.getItemReviews('rec')
-    this.getShopReviews('rec')
+    this.getItemReviews('createdAt');
+    this.getShopReviews('createdAt');
   }
 
   render() {
@@ -129,11 +132,11 @@ class ReviewList extends React.Component {
         <Row className="justify-content-end">
           <Dropdown onSelect={this.sortBy}>
             <DropToggleStyled>
-              Sort by: {this.state.sort === 'rec' ? 'Recommended' : 'Newest'}
+              Sort by: {this.state.sort === 'isHelpful' ? 'Recommended' : 'Newest'}
             </DropToggleStyled>
             <Dropdown.Menu>
-              <DropItemStyled eventKey="rec">Recommended</DropItemStyled>
-              <DropItemStyled eventKey="new">Newest</DropItemStyled>
+              <DropItemStyled eventKey="isHelpful">Recommended</DropItemStyled>
+              <DropItemStyled eventKey="createdAt">Newest</DropItemStyled>
             </Dropdown.Menu>
           </Dropdown>
         </Row>

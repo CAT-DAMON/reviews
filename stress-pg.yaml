@@ -1,0 +1,20 @@
+config:
+  target: "http://127.0.0.1:3001"
+  tls:
+    rejectionUnauthorized: false
+  phases:
+    - duration: 5
+      arrivalRate: 1
+      name: Warm up
+    - duration: 30
+      arrivalRate: 1
+      rampTo: 2
+      name: Ramp up load
+    - duration: 60
+      arrivalRate: 1
+      name: Sustained load
+scenarios:
+  - name: "Look at Reviews"
+    flow:
+      - get:
+          url: "/api-items/90000/56"

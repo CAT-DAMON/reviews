@@ -10,11 +10,11 @@ import { Main } from './styled-components.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    let itemId = Number(location.pathname.split('/')[2]);
-
+    let storeId = Number(location.pathname.split('/')[2]);
+    let itemId = Number(location.pathname.split('/')[3]);
     this.state = {
       id: itemId,
+      storeId: storeId,
       photoReviews: [],
       modalIdx: 0,
       modalShow: false,
@@ -29,9 +29,10 @@ class App extends React.Component {
   }
 
   getPhotoReviews() {
-    $.get(`http://localhost:3001/api/photo-reviews/${this.state.id}`)
+    $.get(`http://54.183.239.46:3001/api-photos/${this.state.storeId}/${this.state.id}`)
       .done((reviews) => {
         // formatting for photo carousel
+        console.log(reviews)
         console.log('hello world')
         var slides = [[], [], [], [], []];
         var i = 0;
@@ -72,6 +73,7 @@ class App extends React.Component {
     return (
       <Main>
         <ReviewList
+          storeId={this.state.storeId}
           itemId={this.state.id}
           clickReviewPhoto={this.clickReviewPhoto}/>
         <PhotoCarousel
