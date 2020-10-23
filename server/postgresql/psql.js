@@ -103,7 +103,7 @@ const wipeTable = (tableName) => {
   if (tableIsDirty) {
     wipeTable('reviews');
   };
-})();
+});
 
 module.exports = {
   addReview,
