@@ -95,7 +95,7 @@ class ReviewList extends React.Component {
     console.log(e.target.id)
 	  document.getElementById(`${e.target.id}-thanks`).style.display = 'inline';
     $.ajax({
-      url: `http://54.183.239.46:3001/api-helpful/${e.target.id}`,
+      url: `http://54.183.239.46:3001/api-helpful/${e.target.storeId}/${e.target.id}`,
       method: 'PATCH'
     })
     .done((changed) => {
