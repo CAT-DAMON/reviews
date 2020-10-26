@@ -18,7 +18,7 @@ WITH DELIMITER ',';`,
 module.exports.psql2 = {
   config: {
     user: 'jase',
-    host: '54.67.22.231',
+    host: '54.177.131.226',
     database: 'sdc',
     password: 'keeppushing',
     port: 5432

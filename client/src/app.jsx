@@ -29,7 +29,7 @@ class App extends React.Component {
   }
 
   getPhotoReviews() {
-    $.get(`http://54.193.98.52:3001/api-photos/${this.state.storeId}/${this.state.id}`)
+    $.get(`http://54.219.72.14:3001/api-photos/${this.state.storeId}/${this.state.id}`)
       .done((reviews) => {
         // formatting for photo carousel
         console.log(reviews)
