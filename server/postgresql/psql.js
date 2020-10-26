@@ -57,9 +57,9 @@ const getStore = (storeId, order = 'createdAt') => {
   });
 };
 
-const isHelpful = (id) => {
+const isHelpful = (storeId, id) => {
   const start = StopWatch.start('milliseconds');
-  return client.query(`UPDATE reviews SET helpful = helpful + 1 WHERE id = ${id} RETURNING helpful;`)
+  return client.query(`UPDATE reviews SET helpful = helpful + 1 WHERE storeId = ${storeId} AND id = ${id} RETURNING helpful;`)
   .then((updated) => {
     StopWatch.end(start, 'isHelpful')();
     return updated;

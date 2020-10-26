@@ -22,16 +22,16 @@ const Review = ({ review, clickReviewPhoto, clickHelpful }) => {
       <ReviewStyled.Body className="align-center">
         <p className="quiet-text">
           <span className="link">{review.username}</span>
-          {moment(review.createdAt).format('ll')}
+          {moment(review.createdat).format('ll')}
         </p>
         <Stars rating={review.rating} isHalf={false}/>
         <Container className="review-body" fluid>
           <Row>
             <Col>{review.body}</Col>
-            {review.imageUrl && <Col xs={3}>
+            {review.imageurl && <Col xs={3}>
               <img
                 onClick={clickReviewPhoto}
-                id={review._id}
+                id={review.id}
                 src={review.imageurl}
                 className="review-photo"></img>
             </Col>}
@@ -47,14 +47,14 @@ const Review = ({ review, clickReviewPhoto, clickHelpful }) => {
             alt="Item Thumbnail"
           />
           <ReviewStyled.Body>
-            <div className="link quiet-text">{review.itemName}</div>
+            <div className="link quiet-text">{review.itemname}</div>
           </ReviewStyled.Body>
         </ReviewStyled>
         <Helpful >
           <Button
             variant="light"
             onClick={clickHelpful}
-            id={review._id} >
+            id={review.id} >
             Is this review helpful?
           </Button>
           <p id={`${review.id}-thanks`} style={{display: 'none'}}>Thanks for your feedback!</p>

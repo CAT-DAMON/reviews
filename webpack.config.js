@@ -3,6 +3,7 @@ const SRC_DIR = path.join(__dirname, '/client/src')
 const DIST_DIR = path.join(__dirname, 'client/dist')
 
 module.exports = {
+  mode: 'production',
   entry: `${SRC_DIR}/app.jsx`,
   output: {
     filename: 'reviews.bundle.js',
